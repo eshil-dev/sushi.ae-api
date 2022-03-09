@@ -9,6 +9,7 @@ import { applyPassportStrategy } from './srs/utils/passport.js';
 
 // Importing all the routes here
 import userRouter from './srs/routes/user.route';
+import menuRouter from './srs/routes/menu.route';
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/user', userRouter);config
+app.use('/api/user', userRouter);
+app.use('/api/menu', menuRouter)
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 

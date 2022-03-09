@@ -24,10 +24,11 @@ import User from '../models/users/user.model';
 
 const userController = express.Router();
 
-async function createUser(email, password) {
+async function createUser(email, password, phone) {
   const data = {
     email,
     password: await generateHashedPassword(password),
+    phone
   };
   return User(data).save();
 }
@@ -61,10 +62,10 @@ userController.post('/register', registerValidation, async (req, res) => {
     });
   } else {
     try {
-      const { email, password } = req.body;
+      const { email, password, phone } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-         await createUser(email, password);
+         await createUser(email, password, phone);
         // Sign token
         const newUser = await User.findOne({ email });
         const token = jwt.sign({ email }, config.passport.secret, {
