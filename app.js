@@ -1,24 +1,39 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import passport from 'passport';
 
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
+import { config } from './srs/config/db.config';
+
+import { applyPassportStrategy } from './srs/utils/passport.js';
+
+// Importing all the routes here
+import userRouter from './srs/routes/user.route';
 
 const app = express();
 
-app.use(cors(corsOptions));
+applyPassportStrategy(passport);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/user', userRouter);config
 
-app.get('/', (req, res) => {
-    res.send({message: 'Welcome to the first route.'});
-});
+const { port, mongoDBUri, mongoHostName } = config.env;
 
+const start = async () => {
+    try {
+        await mongoose.connect(mongoDBUri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('Connected to database successfully.')
+    } catch (err) {
+        console.log('Error accured while connecting to Database')
+    }
+    app.listen(port, () => {
+        console.log(`Server is running on port: ${port}`);
+    });
+}
 
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
-});
+start()
