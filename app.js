@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 
 import { config } from './srs/config/db.config';
-
 import { applyPassportStrategy } from './srs/utils/passport.js';
 
 // Importing all the routes here
@@ -13,16 +12,19 @@ import menuRouter from './srs/routes/menu.route';
 
 const app = express();
 
+// All middlewares
 applyPassportStrategy(passport);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.use('/api/user', userRouter);
 app.use('/api/menu', menuRouter)
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 
+// Sinle fuction for connectin to database and starting server.
 const start = async () => {
     try {
         await mongoose.connect(mongoDBUri, {

@@ -5,13 +5,7 @@ import { validationResult } from 'express-validator';
 
 import { config } from '../config/db.config';
 
-import {
-  generateHashedPassword,
-  generateServerErrorCode,
-  registerValidation,
-  loginValidation,
-} from '../utils/utils';
-
+import { generateHashedPassword, generateServerErrorCode} from '../utils/utils';
 
 import {
   SOME_THING_WENT_WRONG,
@@ -21,8 +15,6 @@ import {
 } from '../utils/constant';
 
 import User from '../models/users/user.model';
-
-const userController = express.Router();
 
 async function createUser(email, password, phone) {
   const data = {
@@ -37,23 +29,21 @@ async function createUser(email, password, phone) {
  * GET/
  * retrieve and display all Users in the User Model
  */
-userController.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+// userController.get(
+//   '/',
+export const listUser = (req, res) => {
     User.find({}, (err, result) => {
       res.status(200).json({
         data: result,
       });
     });
-  }
-);
+}
 
 /**
  * POST/
  * Register a user
  */
-userController.post('/register', registerValidation, async (req, res) => {
+export const registerUser =  async (req, res) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -87,13 +77,13 @@ userController.post('/register', registerValidation, async (req, res) => {
       generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
     }
   }
-});
+}
 
 /**
  * POST/
  * Login a user
  */
-userController.post('/login', loginValidation, async (req, res) => {
+export const loginUser =  async (req, res) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -134,6 +124,4 @@ userController.post('/login', loginValidation, async (req, res) => {
       generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
     }
   }
-});
-
-export default userController;
+}
