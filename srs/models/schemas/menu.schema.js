@@ -16,6 +16,15 @@ const menuSchema =  new mongoose.Schema({
         type: Number,
         required: true
     },
+    currency: {
+        type: String,
+        enum: ['Dollar', 'Derham'],
+        required: true
+    },
+    available: {
+        type: Boolean,
+        required: true
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',

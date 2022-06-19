@@ -15,7 +15,7 @@ import {
 
 const menuRouter = express.Router();
 
-menuRouter.use(passport.authenticate('jwt', { session: false }));
+// menuRouter.use(passport.authenticate('jwt', { session: false }));
 
 menuRouter.route('/upload')
         .post(uploadPhoto);
@@ -25,7 +25,7 @@ menuRouter.route('/category')
         .get(listCategory);
 
 menuRouter.route('/category/:id')
-        .put(updateCategory)
+        .patch(updateCategory)
         .delete(deleteCategory)
 
 menuRouter.route('/')
@@ -33,7 +33,7 @@ menuRouter.route('/')
         .get(listMenu);
 
 menuRouter.route('/:id')
-        .put(updateMenu)
+        .patch(updateMenu)
         .delete(deleteMenu)
 
 export default menuRouter;
