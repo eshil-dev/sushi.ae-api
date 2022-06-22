@@ -6,7 +6,6 @@ import {
         postCategory,
         updateCategory,
         deleteCategory,
-        uploadPhoto,
         listMenu,
         postMenu,
         updateMenu,
@@ -16,9 +15,6 @@ import {
 const menuRouter = express.Router();
 
 // menuRouter.use(passport.authenticate('jwt', { session: false }));
-
-menuRouter.route('/upload')
-        .post(uploadPhoto);
 
 menuRouter.route('/category')
         .post(postCategory)

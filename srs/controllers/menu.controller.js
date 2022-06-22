@@ -1,27 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import Category from '../models/menu/category.model';
 import Menu from '../models/menu/menu.model';
-import uploadFileMiddleware from '../middleware/image-upload';
 
-const __dirname = path.resolve();
-
-export const uploadPhoto = async (req, res) => {
-  try {
-    await uploadFileMiddleware(req, res);
-    if (req.file == undefined) {
-      return res.status(400).send({ message: "Please upload a file!" });
-    }
-    res.status(200).send({
-      message: "Uploaded the file successfully: ",
-    });
-  } catch (err) {
-    res.status(500).send({
-      message: `Could not upload the file: . ${err}`,
-    });
-  }
-
-}
+import { uploadToS3 } from '../utils/imageService';
 
 export const listCategory = async (req, res) => {
   try {
@@ -34,8 +14,9 @@ export const listCategory = async (req, res) => {
 }
 
 export const postCategory = async (req, res) => {
+  const { name, description, imageName, imageBase64, available } = req.body;
   try {
-    const { name, description, imageUrl, available } = req.body;
+    const imageUrl = await uploadToS3(imageName, imageBase64)
     const category = Category({ name, description, imageUrl, available });
     const result = await category.save();
     return res.send({ message: result });
@@ -73,12 +54,13 @@ export const deleteCategory = async (req, res) => {
 }
 
 export const postMenu = async (req, res) => {
+  const { name, description, price, imageName, imageBase64, currency, available, category } = req.body;
   try {
-    const { name, description, imageUrl, price, currency, available, category } = req.body;
+    const imageURL = await uploadToS3(imageName, imageBase64)
     const menu = Menu({
       name: name,
       description: description,
-      imageUrl: imageUrl,
+      imageUrl: imageURL,
       price: price,
       currency: currency,
       available: available,
@@ -93,22 +75,6 @@ export const postMenu = async (req, res) => {
 };
 
 export const listMenu = async (req, res) => {
-
-  // const directoryPath = __dirname + "/uploads/";
-  // fs.readdir(directoryPath, async function (err, files) {
-  //   if (err) {
-  //     res.status(500).send({
-  //       message: "Unable to scan files!",
-  //     });
-  //   }
-  //   let fileInfos = [];
-  //   files.forEach((file) => {
-  //     fileInfos.push({
-  //       name: file,
-  //       url: __dirname + '/uploads/' + file,
-  //     });
-  //   });
-
   const result = await Menu.find().populate('category');
   return res.status(200).send(result);
 }

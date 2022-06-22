@@ -1,11 +1,12 @@
-import express from 'express';
 import jwt from 'jsonwebtoken';
-import passport from 'passport';
 import { validationResult } from 'express-validator';
 
 import { config } from '../config/db.config';
-
-import { generateHashedPassword, generateServerErrorCode} from '../utils/utils';
+import User from '../models/users/user.model';
+import {
+  generateHashedPassword,
+  generateServerErrorCode
+} from '../utils/utils';
 
 import {
   SOME_THING_WENT_WRONG,
@@ -14,13 +15,11 @@ import {
   USER_DOES_NOT_EXIST,
 } from '../utils/constant';
 
-import User from '../models/users/user.model';
-
-async function createUser(email, password, phone) {
+async function createUser(fullName, email, password) {
   const data = {
+    fullName,
     email,
     password: await generateHashedPassword(password),
-    phone
   };
   return User(data).save();
 }
@@ -32,18 +31,18 @@ async function createUser(email, password, phone) {
 // userController.get(
 //   '/',
 export const listUser = (req, res) => {
-    User.find({}, (err, result) => {
-      res.status(200).json({
-        data: result,
-      });
+  User.find({}, (err, result) => {
+    res.status(200).json({
+      data: result,
     });
+  });
 }
 
 /**
  * POST/
  * Register a user
  */
-export const registerUser =  async (req, res) => {
+export const registerUser = async (req, res) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -52,10 +51,10 @@ export const registerUser =  async (req, res) => {
     });
   } else {
     try {
-      const { email, password, phone } = req.body;
+      const { fullName, email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-         await createUser(email, password, phone);
+        await createUser(fullName, email, password);
         // Sign token
         const newUser = await User.findOne({ email });
         const token = jwt.sign({ email }, config.passport.secret, {
@@ -63,6 +62,7 @@ export const registerUser =  async (req, res) => {
         });
         const userToReturn = { ...newUser.toJSON(), ...{ token } };
         delete userToReturn.password;
+        console.log('::userToReturn::', userToReturn)
         res.status(200).json(userToReturn);
       } else {
         generateServerErrorCode(
@@ -83,7 +83,7 @@ export const registerUser =  async (req, res) => {
  * POST/
  * Login a user
  */
-export const loginUser =  async (req, res) => {
+export const loginUser = async (req, res) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -106,7 +106,6 @@ export const loginUser =  async (req, res) => {
           generateServerErrorCode(
             res,
             403,
-            'login password error',
             WRONG_PASSWORD,
             'password'
           );
@@ -115,13 +114,12 @@ export const loginUser =  async (req, res) => {
         generateServerErrorCode(
           res,
           404,
-          'login email error',
           USER_DOES_NOT_EXIST,
           'email'
         );
       }
     } catch (e) {
-      generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
+      generateServerErrorCode(res, 500, SOME_THING_WENT_WRONG);
     }
   }
 }

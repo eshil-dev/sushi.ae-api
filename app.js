@@ -9,18 +9,20 @@ import { applyPassportStrategy } from './srs/utils/passport.js';
 // Importing all the routes here
 import userRouter from './srs/routes/user.route';
 import menuRouter from './srs/routes/menu.route';
+import categoryRouter from './srs/routes/category.route';
 
 const app = express();
 
 // All middlewares
 applyPassportStrategy(passport);
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({limit: '200mb'}));
+app.use(express.urlencoded({ extended: true, limit: '200mb' }));
 
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/menu', menuRouter)
+app.use('/api/menu/categroy', categoryRouter)
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 
