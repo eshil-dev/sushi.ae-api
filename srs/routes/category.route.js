@@ -9,11 +9,11 @@ import {
     deleteCategory
 } from "../controllers/category.controller";
 
-categoryRouter.route('/category')
+categoryRouter.route('/')
     .post(postCategory)
     .get(listCategory);
 
-categoryRouter.route('/category/:id')
+categoryRouter.route('/:id')
     .patch(updateCategory)
     .delete(deleteCategory);
 

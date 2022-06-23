@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true, limit: '200mb' }));
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/menu', menuRouter)
-app.use('/api/menu/categroy', categoryRouter)
+app.use('/api/category', categoryRouter)
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 
