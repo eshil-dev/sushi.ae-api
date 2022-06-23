@@ -3,7 +3,6 @@ import { uploadToS3 } from '../utils/imageService';
 
 export const listCategory = async (req, res) => {
     try {
-        console.log('process.env:::', process.env)
         const result = await Category.find({});
         return res.send(result);
     } catch (err) {

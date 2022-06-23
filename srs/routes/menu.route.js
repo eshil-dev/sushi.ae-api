@@ -2,10 +2,6 @@ import express from 'express';
 import passport from 'passport';
 
 import {
-        listCategory,
-        postCategory,
-        updateCategory,
-        deleteCategory,
         listMenu,
         postMenu,
         updateMenu,
@@ -15,14 +11,6 @@ import {
 const menuRouter = express.Router();
 
 // menuRouter.use(passport.authenticate('jwt', { session: false }));
-
-menuRouter.route('/category')
-        .post(postCategory)
-        .get(listCategory);
-
-menuRouter.route('/category/:id')
-        .patch(updateCategory)
-        .delete(deleteCategory)
 
 menuRouter.route('/')
         .post(postMenu)
