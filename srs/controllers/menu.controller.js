@@ -12,7 +12,7 @@ export const postMenu = async (req, res) => {
     available,
     category
   } = req.body;
-  
+
   try {
     const imageURL = await uploadToS3(imageName, imageBase64)
     const menu = Menu({
@@ -38,13 +38,53 @@ export const listMenu = async (req, res) => {
 }
 
 export const updateMenu = async (req, res) => {
+  const id = req.params.id;
+  const {
+    name,
+    description,
+    category,
+    imageName,
+    base64Image,
+    price,
+    currency,
+    available
+  } = req.body;
+
   try {
-    const menu = await Menu.findById(req.params.id);
+
+    const menu = await Menu.findById(id);
     if (!menu) {
       return res.send({ message: 'Menu with the provided ID is not found' });
+    } else {
+
+      if (imageName && base64Image) {
+        const s3ImageURL = await uploadToS3(imageName, base64Image);
+        const result = await Menu.findByIdAndUpdate(id, {
+          $set: {
+            name: name,
+            description: description,
+            imageUrl: s3ImageURL,
+            price: price,
+            currency: currency,
+            category: category,
+            available: available
+          }
+        }, { new: true });
+        return res.send(result);
+      } else {
+        const result = await Menu.findByIdAndUpdate(id, {
+          $set: {
+            name: name,
+            description: description,
+            price: price,
+            currency: currency,
+            category: category,
+            available: available
+          }
+        }, { new: true });
+        return res.send(result);
+      }
     }
-    await menu.update(req.body);
-    return res.send({ id: menu._id, ...req.body })
   } catch (err) {
     return res.send(err);
   }
