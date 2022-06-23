@@ -1,9 +1,9 @@
 import AWS from 'aws-sdk';
 
-const BUCKET_NAME = 'sushi-images-bucket'
-const ACCESS_KEY_ID = 'AKIATW65PWY2LLGUBG5P'
-const SECRET_ACCESS_KEY = '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'
-const AWS_REGION = 'ap-south-1'
+const BUCKET_NAME = '' // put backut name
+const ACCESS_KEY_ID = '' // put access ID
+const SECRET_ACCESS_KEY = '' // put secret key
+const AWS_REGION = '' // put region
 
 const credentials = {
     accessKeyId: ACCESS_KEY_ID,
