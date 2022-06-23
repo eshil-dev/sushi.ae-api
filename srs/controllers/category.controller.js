@@ -24,13 +24,34 @@ export const postCategory = async (req, res) => {
 }
 
 export const updateCategory = async (req, res) => {
+    const { _id, name, description, imageName, imageBase64, available } = req.body;
     try {
         let category = await Category.findById(req.params.id);
         if (!category) {
             return res.send({ message: 'Category not found!' });
+        } else {
+            if (imageName && imageBase64) {
+                const imageUrl = await uploadToS3(imageName, imageBase64)
+                const result = await Category.findByIdAndUpdate(_id, {
+                    $set: {
+                        name: name,
+                        description: description,
+                        imageUrl: imageUrl,
+                        available: available
+                    }
+                }, { new: true });
+                res.send(result)
+            } else {
+                const result = await Category.findByIdAndUpdate(_id, {
+                    $set: {
+                        name: name,
+                        description: description,
+                        available: available
+                    }
+                }, { new: true });
+                res.send(result)
+            }
         }
-        await category.update(req.body);
-        res.send({ id: category._id, ...req.body })
     } catch (err) {
         res.send({ message: err.message });
     }
@@ -45,7 +66,6 @@ export const deleteCategory = async (req, res) => {
         }
         await Category.findByIdAndDelete(catId)
         res.send({ message: 'Category Deleted successfully.' });
-
     } catch (err) {
         res.send({ message: err.message });
     }
