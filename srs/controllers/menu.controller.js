@@ -6,6 +6,7 @@ export const postMenu = async (req, res) => {
     name,
     description,
     price,
+    discount,
     imageName,
     imageBase64,
     currency,
@@ -20,6 +21,7 @@ export const postMenu = async (req, res) => {
       description: description,
       imageUrl: imageURL,
       price: price,
+      discount: discount,
       currency: currency,
       available: available,
       category: category
@@ -46,6 +48,7 @@ export const updateMenu = async (req, res) => {
     imageName,
     base64Image,
     price,
+    discount,
     currency,
     available
   } = req.body;
@@ -65,6 +68,7 @@ export const updateMenu = async (req, res) => {
             description: description,
             imageUrl: s3ImageURL,
             price: price,
+            discount: discount,
             currency: currency,
             category: category,
             available: available
@@ -77,6 +81,7 @@ export const updateMenu = async (req, res) => {
             name: name,
             description: description,
             price: price,
+            discount: discount,
             currency: currency,
             category: category,
             available: available

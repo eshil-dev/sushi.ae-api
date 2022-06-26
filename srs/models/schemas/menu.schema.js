@@ -16,6 +16,10 @@ const menuSchema =  new mongoose.Schema({
         type: Number,
         required: true
     },
+    discount: {
+        type: Number,
+        required: true
+    },
     currency: {
         type: String,
         enum: ['Dollar', 'Derham'],
