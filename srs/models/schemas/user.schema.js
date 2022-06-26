@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         trim: true,
         unique: true
       },
+    imageAvatarUrl: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true

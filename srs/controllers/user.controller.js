@@ -14,11 +14,13 @@ import {
   WRONG_PASSWORD,
   USER_DOES_NOT_EXIST,
 } from '../utils/constant';
+import { uploadToS3 } from '../utils/imageService';
 
-async function createUser(fullName, email, password) {
+async function createUser(fullName, email, imageAvatarUrl, password) {
   const data = {
     fullName,
     email,
+    imageAvatarUrl,
     password: await generateHashedPassword(password),
   };
   return User(data).save();
@@ -30,12 +32,9 @@ async function createUser(fullName, email, password) {
  */
 // userController.get(
 //   '/',
-export const listUser = (req, res) => {
-  User.find({}, (err, result) => {
-    res.status(200).json({
-      data: result,
-    });
-  });
+export const listUsers = async (req, res) => {
+  const result = await User.find()
+  return res.status(200).send(result);
 }
 
 /**
@@ -51,10 +50,14 @@ export const registerUser = async (req, res) => {
     });
   } else {
     try {
-      const { fullName, email, password } = req.body;
+      const { fullName, email, imageName, imageBase64, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        await createUser(fullName, email, password);
+        let imageAvatarUrl = ''
+        if(imageName && imageBase64) {
+          imageAvatarUrl = await uploadToS3(imageName, imageBase64);
+        }
+        await createUser(fullName, email, imageAvatarUrl, password);
         // Sign token
         const newUser = await User.findOne({ email });
         const token = jwt.sign({ email }, config.passport.secret, {
@@ -62,7 +65,6 @@ export const registerUser = async (req, res) => {
         });
         const userToReturn = { ...newUser.toJSON(), ...{ token } };
         delete userToReturn.password;
-        console.log('::userToReturn::', userToReturn)
         res.status(200).json(userToReturn);
       } else {
         generateServerErrorCode(
