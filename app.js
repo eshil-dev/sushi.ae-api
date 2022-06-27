@@ -10,6 +10,7 @@ import { applyPassportStrategy } from './srs/utils/passport.js';
 import userRouter from './srs/routes/user.route';
 import menuRouter from './srs/routes/menu.route';
 import categoryRouter from './srs/routes/category.route';
+import orderRouter from './srs/routes/order.route';
 
 const app = express();
 
@@ -21,8 +22,9 @@ app.use(express.urlencoded({ extended: true, limit: '200mb' }));
 
 // Routes
 app.use('/api/user', userRouter);
-app.use('/api/menu', menuRouter)
-app.use('/api/category', categoryRouter)
+app.use('/api/menu', menuRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/order', orderRouter);
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 
