@@ -1,4 +1,4 @@
-import Category from '../models/menu/category.model';
+import Category from '../models/category/category.model';
 import { uploadToS3 } from '../utils/imageService';
 
 export const listCategory = async (req, res) => {
