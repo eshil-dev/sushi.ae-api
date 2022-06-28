@@ -3,14 +3,14 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import passport from 'passport';
 
-import { config } from './srs/config/db.config';
-import { applyPassportStrategy } from './srs/utils/passport.js';
+import { config } from './src/config/db.config';
+import { applyPassportStrategy } from './src/utils/passport.js';
 
 // Importing all the routes here
-import userRouter from './srs/routes/user.route';
-import menuRouter from './srs/routes/menu.route';
-import categoryRouter from './srs/routes/category.route';
-import orderRouter from './srs/routes/order.route';
+import userRouter from './src/routes/user.route';
+import menuRouter from './src/routes/menu.route';
+import categoryRouter from './src/routes/category.route';
+import orderRouter from './src/routes/order.route';
 
 const app = express();
 
