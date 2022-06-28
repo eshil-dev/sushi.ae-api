@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         unique: true
-      },
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
     imageAvatarUrl: {
         type: String,
     },
@@ -24,8 +28,8 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id, name: this.name, email: this.email }, config.passport.secret, {
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id, email: this.email }, config.passport.secret, {
         expiresIn: 1000000,
     });
     return token;

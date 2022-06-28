@@ -16,10 +16,11 @@ import {
 } from '../utils/constant';
 import { uploadToS3 } from '../utils/imageService';
 
-async function createUser(fullName, email, imageAvatarUrl, password) {
+async function createUser(fullName, email, phone, imageAvatarUrl, password) {
   const data = {
     fullName,
     email,
+    phone,
     imageAvatarUrl,
     password: await generateHashedPassword(password),
   };
@@ -40,14 +41,14 @@ export const registerUser = async (req, res) => {
     });
   } else {
     try {
-      const { fullName, email, imageName, imageBase64, password } = req.body;
+      const { fullName, email, phone, imageName, imageBase64, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
         let imageAvatarUrl = ''
         if (imageName && imageBase64) {
           imageAvatarUrl = await uploadToS3(imageName, imageBase64);
         }
-        await createUser(fullName, email, imageAvatarUrl, password);
+        await createUser(fullName, email, phone, imageAvatarUrl, password);
         // Sign token
         const newUser = await User.findOne({ email });
         const token = jwt.sign({ email }, config.passport.secret, {
@@ -77,6 +78,7 @@ export const updateUser = async (req, res) => {
   const {
     fullName,
     email,
+    phone,
     imageName,
     base64Image,
   } = req.body;
@@ -91,6 +93,7 @@ export const updateUser = async (req, res) => {
         const result = await User.findByIdAndUpdate(id, {
           $set: {
             fullName: fullName,
+            phone,
             email: email,
             imageAvatarUrl: s3ImageURL,
           }
@@ -101,6 +104,7 @@ export const updateUser = async (req, res) => {
           $set: {
             fullName: fullName,
             email: email,
+            phone
           }
         }, { new: true });
         return res.send(result);
