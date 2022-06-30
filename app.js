@@ -7,10 +7,10 @@ import { config } from './src/config/db.config.js';
 import { applyPassportStrategy } from './src/utils/passport.js';
 
 // Importing all the routes here
-import userRouter from './src/routes/user.route';
-import menuRouter from './src/routes/menu.route';
+import userRouter from './src/routes/user.route.js';
+import menuRouter from './src/routes/menu.route.js';
 import categoryRouter from './src/routes/category.route';
-import orderRouter from './src/routes/order.route';
+import orderRouter from './src/routes/order.route.js';
 
 const app = express();
 
