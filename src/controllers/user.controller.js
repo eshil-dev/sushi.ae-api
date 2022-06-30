@@ -141,7 +141,7 @@ export const changePassword = async (req, res) => {
           $set: { password: hashedPassword }
         });
         delete result.password
-        res.status(200).json(result)
+        return res.status(200).json(result)
       } else {
         generateServerErrorCode(
           res,
