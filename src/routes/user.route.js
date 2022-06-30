@@ -1,9 +1,9 @@
 import express from 'express';
 import passport from 'passport';
 
-import { listUsers, registerUser, updateUser, deleteUser, changePassword, loginUser } from '../controllers/user.controller';
+import { listUsers, registerUser, updateUser, deleteUser, changePassword, loginUser } from '../controllers/user.controller.js';
 
-import { registerValidation, loginValidation } from '../utils/utils';
+import { registerValidation, loginValidation } from '../utils/utils.js';
 
 const userRouter = express.Router();
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import orderSchema from "../schemas/order.schema";
+import orderSchema from "../schemas/order.schema.js";
 
 const Order = mongoose.model('Order', orderSchema);
 

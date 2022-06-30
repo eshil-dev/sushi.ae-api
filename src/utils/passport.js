@@ -1,6 +1,6 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import { config, underscoreId } from '../config/db.config';
-import User from '../models/users/user.model';
+import { config, underscoreId } from '../config/db.config.js';
+import User from '../models/users/user.model.js';
 
 export const applyPassportStrategy = passport => {
   const options = {};
