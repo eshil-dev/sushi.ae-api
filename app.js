@@ -9,7 +9,7 @@ import { applyPassportStrategy } from './src/utils/passport.js';
 // Importing all the routes here
 import userRouter from './src/routes/user.route.js';
 import menuRouter from './src/routes/menu.route.js';
-import categoryRouter from './src/routes/category.route';
+import categoryRouter from './src/routes/category.route.js';
 import orderRouter from './src/routes/order.route.js';
 
 const app = express();
