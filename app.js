@@ -3,7 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import passport from 'passport';
 
-import { config } from './src/config/db.config';
+import { config } from './src/config/db.config.js';
 import { applyPassportStrategy } from './src/utils/passport.js';
 
 // Importing all the routes here
