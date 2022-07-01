@@ -27,7 +27,31 @@ export const postOrder = async (req, res) => {
     }
 }
 
+export const updateOrderStatus = async (req, res) => {
+    const id = req.params.id;
+    const { newStatus } = req.body;
+
+    try {
+        const order = await Order.findById(id);
+        if (!order)
+            return res.send({ message: 'Order not found.' });
+        const result = await Order.findByIdAndUpdate(id, { $set: { status: newStatus } }, { new: true });
+        return res.send(result);
+    } catch (err) {
+        return res.send(err);
+    }
+
+}
+
 export const listOrder = async (req, res) => {
-    const orders = await Order.find().populate({path: 'ordered_menu', populate: 'menu'})
+    const orders = await Order.find({
+        status: {
+            $in: ['Ordered',
+                'Accepted',
+                'On the way',
+                'Completed'
+            ]
+        }
+    }).populate({ path: 'ordered_menu', populate: 'menu' })
     return res.send(orders);
 }
