@@ -6,7 +6,7 @@ import {
         postMenu,
         updateMenu,
         deleteMenu
-} from '../controllers/menu.controller';
+} from '../controllers/menu.controller.js';
 
 const menuRouter = express.Router();
 

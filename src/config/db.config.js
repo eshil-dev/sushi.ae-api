@@ -15,5 +15,6 @@ export const config = {
     },
   };
   console.log('on env:',process.env.ENV)
+  console.log('on env:',process.env.DB_USER_NAME)
 export const underscoreId = '_id';
   

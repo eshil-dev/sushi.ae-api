@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import menuSchema from '../schemas/menu.schema';
+import menuSchema from '../schemas/menu.schema.js';
 
 const Menu = mongoose.model('Menu', menuSchema);
 
