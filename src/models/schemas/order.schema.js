@@ -26,17 +26,14 @@ const orderSchema = new mongoose.Schema({
         type: { type: String },
         coordinates: [Number],
     },
-    order: {
-        amount: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-        menu: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Menu',
-        },
-    },
+    ordered_menu:
+        [{
+            menu: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Menu',
+            },
+            qty: Number
+        }],
     payment: {
         type: {
             type: String,
