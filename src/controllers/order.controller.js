@@ -1,7 +1,7 @@
 import Order from "../models/order/order.model";
 
 export const postOrder = async (req, res) => {
-    const { customerName, address, phone, location, order, payment, status } = req.body;
+    const { customerName, address, phone, location, orders, payment, status } = req.body;
     try {
         const orderedCollection = Order({
             customerName: customerName,
@@ -11,10 +11,7 @@ export const postOrder = async (req, res) => {
                 type: location.type,
                 coordinates: location.coordinates
             },
-            order: {
-                amount: order.amount,
-                menu: order.menu
-            },
+            ordered_menu: orders,
             payment: {
                 type: payment.type,
                 paid: payment.paid,
@@ -31,6 +28,6 @@ export const postOrder = async (req, res) => {
 }
 
 export const listOrder = async (req, res) => {
-    const orders = await Order.find().populate('order.menu');
+    const orders = await Order.find().populate({path: 'ordered_menu', populate: 'menu'})
     return res.send(orders);
 }
