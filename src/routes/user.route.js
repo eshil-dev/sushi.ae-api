@@ -8,8 +8,8 @@ import { registerValidation, loginValidation } from '../utils/utils';
 const userRouter = express.Router();
 
 userRouter.route('/register').post(registerValidation, registerUser);
-userRouter.use(passport.authenticate('jwt', { session: false }))
 userRouter.route('/login').post(loginValidation, loginUser);
+userRouter.use(passport.authenticate('jwt', { session: false }))
 userRouter.route('/:id').patch(updateUser).delete(deleteUser);
 userRouter.route('/changePassword').post(changePassword);
 userRouter.route('/').get(listUsers);
