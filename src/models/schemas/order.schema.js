@@ -4,7 +4,6 @@ const ORDER_STATUS = [
     'Ordered',
     'Accepted',
     'Rejected',
-    'Preparing',
     'On the way',
     'Completed'
 ]
