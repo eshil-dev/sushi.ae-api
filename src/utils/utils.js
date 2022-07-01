@@ -6,7 +6,7 @@ import {
   PASSWORD_LENGTH_MUST_BE_MORE_THAN_8,
   EMAIL_IS_EMPTY,
   EMAIL_IS_IN_WRONG_FORMAT,
-} from './constant';
+} from './constant.js';
 
 
 export const generateHashedPassword = async password => {
