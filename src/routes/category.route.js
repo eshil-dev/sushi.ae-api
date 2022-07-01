@@ -8,7 +8,7 @@ import {
     postCategory,
     updateCategory,
     deleteCategory
-} from "../controllers/category.controller.js";
+} from "../controllers/category.controller";
 
 categoryRouter.use(passport.authenticate('jwt', { session: false }));
 

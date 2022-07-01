@@ -1,20 +1,20 @@
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 
-import { config } from '../config/db.config.js';
-import User from '../models/users/user.model.js';
+import { config } from '../config/db.config';
+import User from '../models/users/user.model';
 import {
   generateHashedPassword,
   generateServerErrorCode
-} from '../utils/utils.js';
+} from '../utils/utils';
 
 import {
   SOME_THING_WENT_WRONG,
   USER_EXISTS_ALREADY,
   WRONG_PASSWORD,
   USER_DOES_NOT_EXIST,
-} from '../utils/constant.js';
-import { uploadToS3 } from '../utils/imageService.js';
+} from '../utils/constant';
+import { uploadToS3 } from '../utils/imageService';
 
 async function createUser(fullName, email, phone, imageAvatarUrl, password) {
   const data = {

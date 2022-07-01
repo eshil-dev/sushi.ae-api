@@ -1,6 +1,6 @@
 import express from "express";
 
-import { listOrder, postOrder } from "../controllers/order.controller.js";
+import { listOrder, postOrder } from "../controllers/order.controller";
 
 const orderRouter = express.Router();
 

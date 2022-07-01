@@ -4,13 +4,13 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 
 import { config } from './src/config/db.config.js';
-import { applyPassportStrategy } from './src/utils/passport.js';
+import { applyPassportStrategy } from './src/utils/passport';
 
 // Importing all the routes here
-import userRouter from './src/routes/user.route.js';
-import menuRouter from './src/routes/menu.route.js';
-import categoryRouter from './src/routes/category.route.js';
-import orderRouter from './src/routes/order.route.js';
+import userRouter from './src/routes/user.route';
+import menuRouter from './src/routes/menu.route';
+import categoryRouter from './src/routes/category.route';
+import orderRouter from './src/routes/order.route';
 
 const app = express();
 
