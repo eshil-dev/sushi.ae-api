@@ -1,5 +1,5 @@
-import Menu from '../models/menu/menu.model';
-import { uploadToS3 } from '../utils/imageService';
+import Menu from '../models/menu/menu.model.js';
+import { uploadToS3 } from '../utils/imageService.js';
 
 export const postMenu = async (req, res) => {
   const {
