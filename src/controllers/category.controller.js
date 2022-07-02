@@ -14,8 +14,11 @@ export const listCategory = async (req, res) => {
 export const postCategory = async (req, res) => {
     const { name, description, imageName, imageBase64, available } = req.body;
     try {
-        const imageUrl = await uploadToS3(imageName, imageBase64)
-        const category = Category({ name, description, imageUrl, available });
+        let categoryImageURL = ''
+        if(imageName && imageBase64) {
+            categoryImageURL = await uploadToS3(imageName, imageBase64)
+        }
+        const category = Category({ name, description, categoryImageURL, available });
         const result = await category.save();
         return res.send({ message: result });
     } catch (err) {
