@@ -15,7 +15,9 @@ export const postMenu = async (req, res) => {
   } = req.body;
 
   try {
-    const imageURL = await uploadToS3(imageName, imageBase64)
+    let imageURL = '';
+    if (imageName && imageBase64)
+      imageURL = await uploadToS3(imageName, imageBase64)
     const menu = Menu({
       name: name,
       description: description,
