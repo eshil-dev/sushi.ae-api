@@ -9,21 +9,13 @@ const ORDER_STATUS = [
 ]
 
 const orderSchema = new mongoose.Schema({
-    customerName: {
-        type: String,
-        required: true,
-    },
-    address: {
-        type: String,
-        required: true,
-    },
-    phone: {
-        type: String,
-        required: true,
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer'
     },
     location: {
-        type: { type: String },
-        coordinates: [Number],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Location'
     },
     ordered_menu:
         [{

@@ -1,16 +1,32 @@
 import Order from "../models/order/order.model.js";
+import Location from '../models/location/location.model';
 
 export const postOrder = async (req, res) => {
-    const { customerName, address, phone, location, orders, payment, status } = req.body;
+    const {
+        customerId,
+        prevLocationId,
+        newAddress,
+        newLocation,
+        orders,
+        payment,
+        status
+    } = req.body;
+
     try {
-        const orderedCollection = Order({
-            customerName: customerName,
-            address: address,
-            phone: phone,
-            location: {
-                type: location.type,
-                coordinates: location.coordinates
-            },
+
+        let locationID = prevLocationId
+        if (!locationID) {
+            const location = Location({
+                customer: customerId,
+                address: newAddress,
+                location: newLocation
+            });
+            const locatoinResult = await location.save();
+            locationID = locatoinResult._id.toString()
+        }
+        const order = Order({
+            customer: customerId,
+            location: locationID,
             ordered_menu: orders,
             payment: {
                 type: payment.type,
@@ -20,8 +36,9 @@ export const postOrder = async (req, res) => {
             },
             status: status
         });
-        const result = await orderedCollection.save();
+        const result = await order.save();
         return res.send(result);
+
     } catch (err) {
         return res.send(err);
     }
@@ -52,6 +69,10 @@ export const listOrder = async (req, res) => {
                 'Completed'
             ]
         }
-    }).populate({ path: 'ordered_menu', populate: 'menu' })
+    })
+        .select('-__v')
+        .populate({ path: 'ordered_menu', populate: 'menu' })
+        .populate('customer', '-__v')
+        .populate('location', '-__v');
     return res.send(orders);
 }
