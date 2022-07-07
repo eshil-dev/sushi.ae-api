@@ -10,3 +10,15 @@ export const registerCustomer = async (req, res) => {
         return res.send(err);
     }
 }
+
+export const customersList = async (req, res) => {
+    const result = await Customer.aggregate([{
+        $lookup: {
+            from: 'locations',
+            localField: '_id',
+            foreignField: 'customer',
+            as: 'locations'
+        },
+    }])
+    return res.status(200).send(result);
+}
