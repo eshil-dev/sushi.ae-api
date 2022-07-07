@@ -10,6 +10,9 @@ import {
     deleteCategory
 } from "../controllers/category.controller.js";
 
+categoryRouter.route('/list-categories')
+    .get(listCategory);
+
 categoryRouter.use(passport.authenticate('jwt', { session: false }));
 
 categoryRouter.route('/')

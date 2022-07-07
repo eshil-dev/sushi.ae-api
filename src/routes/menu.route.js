@@ -10,6 +10,9 @@ import {
 
 const menuRouter = express.Router();
 
+menuRouter.route('/list-menus')
+        .get(listMenu);
+
 menuRouter.use(passport.authenticate('jwt', { session: false }));
 menuRouter.route('/')
         .post(postMenu)
