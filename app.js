@@ -11,6 +11,8 @@ import userRouter from './src/routes/user.route.js';
 import menuRouter from './src/routes/menu.route.js';
 import categoryRouter from './src/routes/category.route.js';
 import orderRouter from './src/routes/order.route.js';
+import customerRouter from './src/routes/customer.route.js';
+
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.use('/api/user', userRouter);
 app.use('/api/menu', menuRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/customer', customerRouter);
 
 const { port, mongoDBUri, mongoHostName } = config.env;
 
