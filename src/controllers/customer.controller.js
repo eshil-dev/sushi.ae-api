@@ -1,4 +1,5 @@
 import Customer from '../models/customer/customer.model';
+import Location from '../models/location/location.model';
 
 export const registerCustomer = async (req, res) => {
     const { uid, name, phone } = req.body;
@@ -21,4 +22,12 @@ export const customersList = async (req, res) => {
         },
     }])
     return res.status(200).send(result);
+}
+
+export const cusomerLocationByUid = async (req, res) => {
+    const uid = req.params.uid;
+    const { _id } = await Customer.findOne({ uid: uid });
+    const customerLocations = await Location.find({ customer: _id })
+        .select('-customer -__v')
+    return res.send(customerLocations)
 }

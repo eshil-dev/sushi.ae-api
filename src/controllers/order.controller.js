@@ -1,5 +1,6 @@
 import Order from "../models/order/order.model.js";
 import Location from '../models/location/location.model';
+import Customer from "../models/customer/customer.model.js";
 
 export const postOrder = async (req, res) => {
     const {
@@ -75,4 +76,13 @@ export const listOrder = async (req, res) => {
         .populate('customer', '-__v')
         .populate('location', '-__v');
     return res.send(orders);
+}
+
+export const listOrderByUid = async (req, res) => {
+    const uid = req.params.uid;
+    const { _id } = await Customer.findOne({ uid: uid });
+    const userOrderHistory = await Order.find({ customer: _id })
+        .populate({ path: 'ordered_menu', populate: 'menu' })
+        .select('-location -customer -__v')
+    return res.send(userOrderHistory)
 }
