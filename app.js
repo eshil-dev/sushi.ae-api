@@ -13,7 +13,6 @@ import categoryRouter from './src/routes/category.route.js';
 import orderRouter from './src/routes/order.route.js';
 import customerRouter from './src/routes/customer.route.js';
 
-
 const app = express();
 
 // All middlewares
