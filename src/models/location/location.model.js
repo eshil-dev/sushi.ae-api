@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import locationSchema from "../schemas/location.schema";
+import locationSchema from "../schemas/location.schema.js";
 
 const Location = mongoose.model('Location', locationSchema);
 

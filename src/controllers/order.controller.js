@@ -1,5 +1,5 @@
 import Order from "../models/order/order.model.js";
-import Location from '../models/location/location.model';
+import Location from '../models/location/location.model.js';
 import Customer from "../models/customer/customer.model.js";
 
 export const postOrder = async (req, res) => {
