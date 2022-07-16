@@ -1,5 +1,5 @@
-import Customer from '../models/customer/customer.model';
-import Location from '../models/location/location.model';
+import Customer from '../models/customer/customer.model.js';
+import Location from '../models/location/location.model.js';
 
 export const registerCustomer = async (req, res) => {
     const { uid, name, phone } = req.body;
