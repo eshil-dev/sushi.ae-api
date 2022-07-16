@@ -4,9 +4,13 @@ import Location from '../models/location/location.model';
 export const registerCustomer = async (req, res) => {
     const { uid, name, phone } = req.body;
     try {
-        const customer = Customer({ uid, name, phone });
-        const result = await customer.save();
-        return res.send(result);
+        const customer = await Customer.findOne({ uid });
+        if (!customer) {
+            const newCustomer = Customer({ uid, name, phone });
+            const result = await newCustomer.save();
+            return res.status(200).send(result);
+        }
+        return res.status(200).send(customer);
     } catch (err) {
         return res.send(err);
     }
@@ -19,12 +23,12 @@ export const customersList = async (req, res) => {
             localField: '_id',
             foreignField: 'customer',
             as: 'locations'
-        },
+        }
     }])
     return res.status(200).send(result);
 }
 
-export const cusomerLocationByUid = async (req, res) => {
+export const customerLocationByUid = async (req, res) => {
     const uid = req.params.uid;
     const { _id } = await Customer.findOne({ uid: uid });
     const customerLocations = await Location.find({ customer: _id })
