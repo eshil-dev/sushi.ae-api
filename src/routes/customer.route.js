@@ -1,6 +1,6 @@
 import express from "express";
 
-import { registerCustomer, customersList, customerLocationByUid } from "../controllers/customer.controller";
+import { registerCustomer, customersList, customerLocationByUid } from "../controllers/customer.controller.js";
 
 const customerRouter = express.Router();
 
